@@ -1,5 +1,8 @@
 package touro.snake;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+
 /**
  * A model that contains the Snake and Food and is responsible for logic of moving the Snake,
  * seeing that food has been eaten and generating new food.
@@ -11,7 +14,7 @@ public class Garden {
 
     private final Snake snake;
     private final FoodFactory foodFactory;
-    private Food food;
+    private ArrayList<Food> food = new ArrayList<>(Arrays.asList(null, null, null, null, null));
 
     public Garden(Snake snake, FoodFactory foodFactory) {
         this.snake = snake;
@@ -22,7 +25,7 @@ public class Garden {
         return snake;
     }
 
-    public Food getFood() {
+    public ArrayList<Food> getFood() {
         return food;
     }
 
@@ -53,11 +56,12 @@ public class Garden {
         }
 
         //if snake eats the food
-        if (snake.getHead().equals(food)) {
+        if (food.contains(snake.getHead())) {
             //add square to snake
             snake.grow();
             //remove food
-            food = null;
+            int eaten = food.indexOf(snake.getHead());
+            food.set(eaten, null);
         }
         return true;
     }
@@ -66,13 +70,14 @@ public class Garden {
      * Creates a Food if there isn't one, making sure it's not already on a Square occupied by the Snake.
      */
     void createFoodIfNecessary() {
-        //if snake ate food, create new one
-        if (food == null) {
-            food = foodFactory.newInstance();
-
-            //if new food on snake, put it somewhere else
-            while (snake.contains(food)) {
-                food = foodFactory.newInstance();
+        for (int i = 0; i < food.size(); i++) {
+            //if snake ate food, create new one
+            while (food.get(i) == null) {
+                Food piece = foodFactory.newInstance();
+                //don't place food there if snake or other food is there
+                if (!food.contains(piece) && !snake.contains(piece)) {
+                    food.set(i, piece);
+                }
             }
         }
     }

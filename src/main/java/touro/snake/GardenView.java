@@ -2,6 +2,7 @@ package touro.snake;
 
 import javax.swing.*;
 import java.awt.*;
+import java.util.ArrayList;
 
 public class GardenView extends JComponent {
 
@@ -36,12 +37,14 @@ public class GardenView extends JComponent {
     void paintFood(Graphics g) {
         // Berger
         if (garden.getFood() != null) {
-            Food food = garden.getFood();
+            ArrayList<Food> food = garden.getFood();
             g.setColor(Color.LIGHT_GRAY);
 
-            int x = food.getX() * CELL_SIZE;
-            int y = food.getY() * CELL_SIZE;
-            g.fillRect(x, y, CELL_SIZE, CELL_SIZE);
+            for (Square piece : food) {
+                int x = piece.getX() * CELL_SIZE;
+                int y = piece.getY() * CELL_SIZE;
+                g.fillRect(x, y, CELL_SIZE, CELL_SIZE);
+            }
         }
     }
 }
