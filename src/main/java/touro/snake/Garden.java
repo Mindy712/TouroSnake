@@ -69,14 +69,12 @@ public class Garden {
      * Creates a Food if there isn't one, making sure it's not already on a Square occupied by the Snake.
      */
     void createFoodIfNecessary() {
-        for (int i = 0; i < 5; i++) {
-            //if this index does not contain a food yet, add one
-            while (i >= food.size()) {
-                Food piece = foodFactory.newInstance();
-                //don't place food there if snake or other food is there
-                if (!food.contains(piece) || !snake.contains(piece)) {
-                    food.add(piece);
-                }
+        //if the array is not at 5, add until it is
+        while (food.size() < 5) {
+            Food piece = foodFactory.newInstance();
+            //don't place food there if snake or other food is there
+            if (!food.contains(piece) && !snake.contains(piece)) {
+                food.add(piece);
             }
         }
     }
