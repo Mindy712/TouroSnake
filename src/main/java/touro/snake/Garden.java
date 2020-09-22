@@ -75,7 +75,7 @@ public class Garden {
             while (food.get(i) == null) {
                 Food piece = foodFactory.newInstance();
                 //don't place food there if snake or other food is there
-                if (!food.contains(piece) && !snake.contains(piece)) {
+                if (!food.contains(piece) || !snake.contains(piece)) {
                     food.set(i, piece);
                 }
             }

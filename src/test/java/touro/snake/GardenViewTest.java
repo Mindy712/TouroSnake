@@ -6,6 +6,7 @@ import org.mockito.Mockito;
 import java.awt.*;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import static javax.swing.JComponent.setDefaultLocale;
@@ -59,19 +60,21 @@ public class GardenViewTest {
     }
 
 
+    //can't confirm that this passes, can't run tests
     @Test
     public void paintFood() {
         //given
         Garden garden = mock(Garden.class);
         GardenView view = new GardenView(garden);
+        ArrayList<Food> foodArray = new ArrayList<>();
 
-        when(garden.getFood()).thenReturn(mock(Food.class));
+        when(garden.getFood()).thenReturn(foodArray);
 
-        Food food = garden.getFood();
-        when(food.getX()).thenReturn(5);
-        when(food.getY()).thenReturn(10);
-        int x = food.getX() * GardenView.CELL_SIZE;
-        int y = food.getY() * GardenView.CELL_SIZE;
+        ArrayList<Food> food = garden.getFood();
+        when(food.get(0).getX()).thenReturn(5);
+        when(food.get(0).getY()).thenReturn(10);
+        int x = food.get(0).getX() * GardenView.CELL_SIZE;
+        int y = food.get(0).getY() * GardenView.CELL_SIZE;
 
         Graphics g = mock(Graphics.class);
 
