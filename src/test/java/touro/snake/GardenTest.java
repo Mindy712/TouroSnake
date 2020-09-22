@@ -47,6 +47,6 @@ public class GardenTest {
         verify(foodFactory, atLeast(5)).newInstance();
         assertNotNull(garden.getFood());
         ArrayList<Food> foodArray = garden.getFood();
-        assertTrue(foodArray.size() == 5);
+        assertEquals(foodArray.size(), 5);
     }
 }

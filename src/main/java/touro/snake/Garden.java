@@ -14,7 +14,7 @@ public class Garden {
 
     private final Snake snake;
     private final FoodFactory foodFactory;
-    private ArrayList<Food> food = new ArrayList<>(Arrays.asList(null, null, null, null, null));
+    private ArrayList<Food> food = new ArrayList<>();
 
     public Garden(Snake snake, FoodFactory foodFactory) {
         this.snake = snake;
@@ -61,7 +61,7 @@ public class Garden {
             snake.grow();
             //remove food
             int eaten = food.indexOf(snake.getHead());
-            food.set(eaten, null);
+            food.remove(eaten);
         }
         return true;
     }
@@ -70,13 +70,13 @@ public class Garden {
      * Creates a Food if there isn't one, making sure it's not already on a Square occupied by the Snake.
      */
     void createFoodIfNecessary() {
-        for (int i = 0; i < food.size(); i++) {
-            //if snake ate food, create new one
-            while (food.get(i) == null) {
+        for (int i = 0; i < 5; i++) {
+            //if this index does not contain a food yet, add one
+            while (i >= food.size()) {
                 Food piece = foodFactory.newInstance();
                 //don't place food there if snake or other food is there
                 if (!food.contains(piece) || !snake.contains(piece)) {
-                    food.set(i, piece);
+                    food.add(piece);
                 }
             }
         }

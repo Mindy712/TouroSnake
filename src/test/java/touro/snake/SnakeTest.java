@@ -116,7 +116,6 @@ public class SnakeTest {
 
     }
 
-    //this should still pass, despite my changes. Can't confirm because can't run tests
     @Test
     public void inBounds_true() {
         //given
@@ -128,7 +127,6 @@ public class SnakeTest {
         assertTrue(snake.inBounds());
     }
 
-    //this should still pass, despite my changes. Can't confirm because can't run tests
     @Test
     public void inBounds_false() {
         //given

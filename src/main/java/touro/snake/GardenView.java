@@ -40,7 +40,7 @@ public class GardenView extends JComponent {
             ArrayList<Food> food = garden.getFood();
             g.setColor(Color.LIGHT_GRAY);
 
-            for (Square piece : food) {
+            for (Food piece : food) {
                 int x = piece.getX() * CELL_SIZE;
                 int y = piece.getY() * CELL_SIZE;
                 g.fillRect(x, y, CELL_SIZE, CELL_SIZE);
