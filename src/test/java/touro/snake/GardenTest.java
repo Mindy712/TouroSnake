@@ -39,7 +39,6 @@ public class GardenTest {
         FoodFactory foodFactory = mock(FoodFactory.class);
         Garden garden = new Garden(snake, foodFactory);
         when(foodFactory.newInstance()).thenReturn(mock(Food.class));
-//         = new ArrayList<>();
 
         //when
         garden.createFoodIfNecessary();
