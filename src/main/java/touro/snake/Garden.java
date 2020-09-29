@@ -1,7 +1,6 @@
 package touro.snake;
 
 import java.util.ArrayList;
-
 /**
  * A model that contains the Snake and Food and is responsible for logic of moving the Snake,
  * seeing that food has been eaten and generating new food.

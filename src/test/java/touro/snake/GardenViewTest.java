@@ -60,7 +60,6 @@ public class GardenViewTest {
     }
 
 
-    //can't confirm that this passes, can't run tests
     @Test
     public void paintFood() {
         //given
