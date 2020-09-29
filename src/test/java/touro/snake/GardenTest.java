@@ -2,6 +2,9 @@ package touro.snake;
 
 import org.junit.Test;
 import java.util.ArrayList;
+import org.mockito.Mockito;
+import javax.sound.sampled.Clip;
+import java.util.List;
 import static org.junit.Assert.*;
 import static org.mockito.Mockito.*;
 
@@ -16,7 +19,8 @@ public class GardenTest {
         //given
         Snake snake = mock(Snake.class);
         FoodFactory foodFactory = mock(FoodFactory.class);
-        Garden garden = new Garden(snake, foodFactory);
+        Clip clip = mock(Clip.class);
+        Garden garden = new Garden(snake, foodFactory, clip);
 
         doReturn(true).when(snake).inBounds();
         doReturn(false).when(snake).eatsSelf();
@@ -34,7 +38,9 @@ public class GardenTest {
         //given
         Snake snake = mock(Snake.class);
         FoodFactory foodFactory = new FoodFactory();
-        Garden garden = new Garden(snake, foodFactory);
+        Clip clip = mock(Clip.class);
+        Garden garden = new Garden(snake, foodFactory, clip);
+//        when(foodFactory.newInstance()).thenReturn(mock(Food.class));
 
         //when
         garden.createFoodIfNecessary();
@@ -43,5 +49,30 @@ public class GardenTest {
         assertNotNull(garden.getFood());
         ArrayList<Food> foodArray = garden.getFood();
         assertEquals(foodArray.size(), 5);
+    }
+
+    @Test
+    public void playSound() {
+        //given
+        Snake snake = mock(Snake.class);
+        FoodFactory foodFactory = mock(FoodFactory.class);
+        Food food = new Food(50, 20);
+        when(foodFactory.newInstance()).thenReturn(food);
+        Clip clip = mock(Clip.class);
+        Garden garden = new Garden(snake, foodFactory, clip);
+        List<Square> squares = List.of(new Square(50, 20));
+
+        when(snake.inBounds()).thenReturn(true);
+        when(snake.eatsSelf()).thenReturn(false);
+        when(snake.getHead()).thenReturn(squares.get(0));
+
+        //when
+        garden.createFoodIfNecessary();
+        garden.moveSnake();
+
+        //then
+        verify(clip).start();
+
+
     }
 }
