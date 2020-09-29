@@ -66,13 +66,11 @@ public class GardenViewTest {
         //given
         Garden garden = mock(Garden.class);
         GardenView view = new GardenView(garden);
-        ArrayList<Food> foodArray = new ArrayList<>();
+        ArrayList<Food> foodArray = new ArrayList<>(Arrays.asList(mock(Food.class)));
 
         when(garden.getFood()).thenReturn(foodArray);
 
         ArrayList<Food> food = garden.getFood();
-        when(food.get(0).getX()).thenReturn(5);
-        when(food.get(0).getY()).thenReturn(10);
         int x = food.get(0).getX() * GardenView.CELL_SIZE;
         int y = food.get(0).getY() * GardenView.CELL_SIZE;
 

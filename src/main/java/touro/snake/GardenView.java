@@ -36,8 +36,8 @@ public class GardenView extends JComponent {
 
     void paintFood(Graphics g) {
         // Berger
-        if (garden.getFood() != null) {
-            ArrayList<Food> food = garden.getFood();
+        ArrayList<Food> food = garden.getFood();
+        if (food.size() > 0) {
             g.setColor(Color.LIGHT_GRAY);
 
             for (Food piece : food) {

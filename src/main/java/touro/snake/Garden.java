@@ -55,11 +55,11 @@ public class Garden {
         }
 
         //if snake eats the food
-        if (food.contains(snake.getHead())) {
+        int eaten = food.indexOf(snake.getHead());
+        if ( eaten != -1 ) {
             //add square to snake
             snake.grow();
             //remove food
-            int eaten = food.indexOf(snake.getHead());
             food.remove(eaten);
         }
         return true;

@@ -30,21 +30,18 @@ public class GardenTest {
         verify(snake).move();
     }
 
-    //can't confirm test passes, can't run tests
     @Test
     public void createFoodIfNecessary() {
 
         //given
         Snake snake = mock(Snake.class);
-        FoodFactory foodFactory = mock(FoodFactory.class);
+        FoodFactory foodFactory = new FoodFactory();
         Garden garden = new Garden(snake, foodFactory);
-        when(foodFactory.newInstance()).thenReturn(mock(Food.class));
 
         //when
         garden.createFoodIfNecessary();
 
         //then
-        verify(foodFactory, atLeast(5)).newInstance();
         assertNotNull(garden.getFood());
         ArrayList<Food> foodArray = garden.getFood();
         assertEquals(foodArray.size(), 5);
