@@ -37,10 +37,15 @@ public class GardenTest {
 
         //given
         Snake snake = mock(Snake.class);
-        FoodFactory foodFactory = new FoodFactory();
+        FoodFactory foodFactory = mock(FoodFactory.class);
         Clip clip = mock(Clip.class);
         Garden garden = new Garden(snake, foodFactory, clip);
-//        when(foodFactory.newInstance()).thenReturn(mock(Food.class));
+        when(foodFactory.newInstance())
+                .thenReturn(mock(Food.class))
+                .thenReturn(mock(Food.class))
+                .thenReturn(mock(Food.class))
+                .thenReturn(mock(Food.class))
+                .thenReturn(mock(Food.class));
 
         //when
         garden.createFoodIfNecessary();
