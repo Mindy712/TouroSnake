@@ -41,23 +41,8 @@ public class AStarStrategy implements SnakeStrategy {
                     currNode = currNode.getParent();
                 }
 
-                if (currNode.getX() == (start.getX() + 1) &&
-                        currNode.getY() == start.getY()) {
-                    snake.turnTo(Direction.East);
-                }
-                else if (currNode.getX() == (start.getX() - 1)
-                        && currNode.getY() == start.getY()) {
-                    snake.turnTo(Direction.West);
-                }
-                else if (currNode.getY() == (start.getY() + 1) &&
-                        currNode.getX() == start.getX()) {
-                    snake.turnTo(Direction.South);
-                }
-                else if (currNode.getY() == (start.getY() - 1) &&
-                        currNode.getX() == start.getX()) {
-                    snake.turnTo(Direction.North);
-                }
-
+                Direction direction = start.directionTo(currNode);
+                snake.turnTo(direction);
                 continue;
             }
 
