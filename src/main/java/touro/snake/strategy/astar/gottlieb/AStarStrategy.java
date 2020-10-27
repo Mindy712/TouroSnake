@@ -16,48 +16,70 @@ public class AStarStrategy implements SnakeStrategy {
         Food food = garden.getFood();
         Node start = new Node(snake.getHead());
 
-        Node currNode;
         open.add(start);
 
+        if (food == null) {
+            return;
+            }
+
+        runAStar(snake, open, closed, food, start);
+    }
+
+    private void runAStar(Snake snake, List<Node> open, List<Node> closed, Food food, Node start) {
+        Node currNode;
         while (!open.isEmpty()) {
 
-            if (food == null) {
+            currNode = getLowestCostNode(open, closed);
+
+            currNode = moveToFood(snake, food, start, currNode);
+            if (currNode == null) {
                 break;
             }
 
-             currNode = open.get(0);
+            generateChildren(snake, open, closed, food, currNode);
+        }
+    }
 
-            for (Node node : open) {
-                if (node.getCost() < currNode.getCost()) {
-                    currNode = node;
-                }
+    private Node getLowestCostNode(List<Node> open, List<Node> closed) {
+        Node currNode;
+        currNode = open.get(0);
+
+        for (Node node : open) {
+            if (node.getCost() < currNode.getCost()) {
+                currNode = node;
+            }
+        }
+
+        open.remove(currNode);
+        closed.add(currNode);
+        return currNode;
+    }
+
+    private Node moveToFood(Snake snake, Food food, Node start, Node currNode) {
+        if (currNode.equals(food)) {
+            while (currNode.getParent() != start) {
+                currNode = currNode.getParent();
             }
 
-            open.remove(currNode);
-            closed.add(currNode);
+            Direction direction = start.directionTo(currNode);
+            snake.turnTo(direction);
+            return null;
+        }
+        return currNode;
+    }
 
-            if (currNode.getX() == food.getX() && currNode.getY() == food.getY()) {
-                while (currNode.getParent() != start) {
-                    currNode = currNode.getParent();
-                }
-
-                Direction direction = start.directionTo(currNode);
-                snake.turnTo(direction);
+    private void generateChildren(Snake snake, List<Node> open, List<Node> closed, Food food, Node currNode) {
+        Direction[] directions = Direction.values();
+        for (Direction dir : directions) {
+            Square neighbor = currNode.moveTo(dir);
+            if (snake.contains(neighbor) ||
+                    !neighbor.inBounds() ||
+                    closed.contains(neighbor) ||
+                    open.contains(neighbor)) {
                 continue;
             }
-
-            Direction[] directions = Direction.values();
-            for (Direction dir : directions) {
-                Square neighbor = currNode.moveTo(dir);
-                if (snake.contains(neighbor) ||
-                        !neighbor.inBounds() ||
-                        closed.contains(neighbor) ||
-                        open.contains(neighbor)) {
-                    continue;
-                }
-                else {
-                    open.add(new Node(neighbor, currNode, food));
-                }
+            else {
+                open.add(new Node(neighbor, currNode, food));
             }
         }
     }
