@@ -57,7 +57,7 @@ public class AStarStrategy implements SnakeStrategy {
 
     private Node moveToFood(Snake snake, Food food, Node start, Node currNode) {
         if (currNode.equals(food)) {
-            while (currNode.getParent() != start) {
+            while (!currNode.getParent().equals(start)) {
                 currNode = currNode.getParent();
             }
 
@@ -71,15 +71,21 @@ public class AStarStrategy implements SnakeStrategy {
     private void generateChildren(Snake snake, List<Node> open, List<Node> closed, Food food, Node currNode) {
         Direction[] directions = Direction.values();
         for (Direction dir : directions) {
-            Square neighbor = currNode.moveTo(dir);
+            Node neighbor = new Node(currNode.moveTo(dir), currNode, food);
             if (snake.contains(neighbor) ||
                     !neighbor.inBounds() ||
-                    closed.contains(neighbor) ||
-                    open.contains(neighbor)) {
+                    closed.contains(neighbor)) {
                 continue;
             }
+            else if (open.contains(neighbor)){
+                int index = open.indexOf(neighbor);
+                Node prev = open.get(index);
+                if (neighbor.getCost() < prev.getCost()) {
+                    open.set(index, neighbor);
+                }
+            }
             else {
-                open.add(new Node(neighbor, currNode, food));
+                open.add(neighbor);
             }
         }
     }
