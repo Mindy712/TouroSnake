@@ -8,10 +8,17 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class AStarStrategy implements SnakeStrategy {
+    List<Node> open = new ArrayList<>();
+    List<Node> closed = new ArrayList<>();
+    List<Square> path = new ArrayList<>();
+    List<Square> searchSpace = new ArrayList();
+
     @Override
     public void turnSnake(Snake snake, Garden garden) {
-        List<Node> open = new ArrayList<>();
-        List<Node> closed = new ArrayList<>();
+        open.clear();
+        closed.clear();
+        path.clear();
+        searchSpace.clear();
 
         Food food = garden.getFood();
         Node start = new Node(snake.getHead());
@@ -22,25 +29,35 @@ public class AStarStrategy implements SnakeStrategy {
             return;
             }
 
-        runAStar(snake, open, closed, food, start);
+        runAStar(snake, food, start);
     }
 
-    private void runAStar(Snake snake, List<Node> open, List<Node> closed, Food food, Node start) {
+    @Override
+    public List<Square> getPath() {
+        return path;
+    }
+
+    @Override
+    public List<Square> getSearchSpace() {
+        return searchSpace;
+    }
+
+    private void runAStar(Snake snake, Food food, Node start) {
         Node currNode;
         while (!open.isEmpty()) {
 
-            currNode = getLowestCostNode(open, closed);
+            currNode = getLowestCostNode();
 
             currNode = moveToFood(snake, food, start, currNode);
             if (currNode == null) {
                 break;
             }
 
-            generateChildren(snake, open, closed, food, currNode);
+            generateChildren(snake, food, currNode);
         }
     }
 
-    private Node getLowestCostNode(List<Node> open, List<Node> closed) {
+    private Node getLowestCostNode() {
         Node currNode;
         currNode = open.get(0);
 
@@ -59,6 +76,7 @@ public class AStarStrategy implements SnakeStrategy {
         if (currNode.equals(food)) {
             while (!currNode.getParent().equals(start)) {
                 currNode = currNode.getParent();
+                path.add(new Square(currNode.getX(), currNode.getY()));
             }
 
             Direction direction = start.directionTo(currNode);
@@ -68,7 +86,7 @@ public class AStarStrategy implements SnakeStrategy {
         return currNode;
     }
 
-    private void generateChildren(Snake snake, List<Node> open, List<Node> closed, Food food, Node currNode) {
+    private void generateChildren(Snake snake, Food food, Node currNode) {
         Direction[] directions = Direction.values();
         for (Direction dir : directions) {
             Node neighbor = new Node(currNode.moveTo(dir), currNode, food);
@@ -86,6 +104,7 @@ public class AStarStrategy implements SnakeStrategy {
             }
             else {
                 open.add(neighbor);
+                searchSpace.add(neighbor);
             }
         }
     }
