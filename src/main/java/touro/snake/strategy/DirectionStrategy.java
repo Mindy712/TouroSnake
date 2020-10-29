@@ -1,10 +1,14 @@
 package touro.snake.strategy;
 
 import touro.snake.*;
-
+import java.util.Arrays;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
+/**
+ * Chooses a Direction based on which neighbor is closest to the Food.
+ */
 public class DirectionStrategy implements SnakeStrategy {
     @Override
     public void turnSnake(Snake snake, Garden garden) {
@@ -14,19 +18,18 @@ public class DirectionStrategy implements SnakeStrategy {
         Direction bestDirection = null;
         double shortestDistance = Double.MAX_VALUE;
 
-        for (Direction d : directions) {
-            Square neighbor = head.moveTo(d);
-            double distanceToFood = neighbor.distance(food);
-            if (snake.contains(neighbor) || !neighbor.inBounds()) {
-                continue;
-            }
-            if (distanceToFood < shortestDistance) {
-                bestDirection = d;
-                shortestDistance = distanceToFood;
-            }
-        }
+        Direction direction = Arrays.stream(directions)
+                .filter((Direction d) -> {
+                    Square neighbor = head.moveTo(d);
+                    return !snake.contains(neighbor) && neighbor.inBounds();
+                })
+                .min(Comparator.comparingDouble((Direction d) -> {
+                    Square neighbor = head.moveTo(d);
+                    return neighbor.distance(food);
+                }))
+                .get();
 
-        snake.turnTo(bestDirection);
+        snake.turnTo(direction);
     }
 
     @Override
