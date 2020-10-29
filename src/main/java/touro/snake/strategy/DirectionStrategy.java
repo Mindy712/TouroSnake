@@ -1,6 +1,7 @@
 package touro.snake.strategy;
 
 import touro.snake.*;
+
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
@@ -15,8 +16,6 @@ public class DirectionStrategy implements SnakeStrategy {
         Direction[] directions = Direction.values();
         Food food = garden.getFood();
         Square head = snake.getHead();
-        Direction bestDirection = null;
-        double shortestDistance = Double.MAX_VALUE;
 
         Direction direction = Arrays.stream(directions)
                 .filter((Direction d) -> {
