@@ -39,7 +39,7 @@ public class Node extends Square {
     }
 
     public double getCost() {
-        return fromStart * 7 + fromEnd;
+        return fromStart * 1 + fromEnd;
     }
 
     @Override
