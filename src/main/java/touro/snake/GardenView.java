@@ -8,6 +8,7 @@ import java.awt.*;
 public class GardenView extends JComponent {
 
     private final Garden garden;
+    private static final Color lightBlue = new Color(117, 228, 255);
     public static final int CELL_SIZE = 10;
 
     public GardenView(Garden garden) {
@@ -50,7 +51,7 @@ public class GardenView extends JComponent {
     }
 
     void paintSearchSpace(Graphics g) {
-        g.setColor(new Color(117, 228, 255));
+        g.setColor(lightBlue);
         for (Square square : garden.getSnake().getStrategy().getSearchSpace()) {
             g.fillRect(square.getX() * CELL_SIZE, square.getY() * CELL_SIZE, CELL_SIZE, CELL_SIZE);
         }
