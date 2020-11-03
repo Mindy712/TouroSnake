@@ -2,7 +2,6 @@ package touro.snake;
 
 import org.junit.Test;
 import org.mockito.Mockito;
-import touro.snake.strategy.astar.gottlieb.AStarStrategy;
 
 import java.awt.*;
 
