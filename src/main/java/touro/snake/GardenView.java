@@ -8,12 +8,10 @@ import java.awt.*;
 public class GardenView extends JComponent {
 
     private final Garden garden;
-    private final AStarStrategy astar;
     public static final int CELL_SIZE = 10;
 
-    public GardenView(Garden garden, AStarStrategy astar) {
+    public GardenView(Garden garden) {
         this.garden = garden;
-        this.astar = astar;
     }
 
     @Override
@@ -53,14 +51,14 @@ public class GardenView extends JComponent {
 
     void paintSearchSpace(Graphics g) {
         g.setColor(new Color(117, 228, 255));
-        for (Square square : astar.getSearchSpace()) {
+        for (Square square : garden.getSnake().getStrategy().getSearchSpace()) {
             g.fillRect(square.getX() * CELL_SIZE, square.getY() * CELL_SIZE, CELL_SIZE, CELL_SIZE);
         }
     }
 
     void paintPath(Graphics g) {
         g.setColor(Color.gray);
-        for (Square square : astar.getPath()) {
+        for (Square square : garden.getSnake().getStrategy().getPath()) {
             g.fillRect(square.getX() * CELL_SIZE, square.getY() * CELL_SIZE, CELL_SIZE, CELL_SIZE);
         }
     }
